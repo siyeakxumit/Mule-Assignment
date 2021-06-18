@@ -5,5 +5,7 @@
   "message2" : "today is "
    
 }
+
 payload.open ++ payload.username ++ payload.message 
 ++ payload.message2 ++ now()
+output:
