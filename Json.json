@@ -1,17 +1,18 @@
-Metadata
+meta data
 {
   "open" : "Hello ",
   "username" : "Siye ",
   "message" : "Welcome to Mulesoft ",
   "message2" : "today is "
-  
+   
 }
-
 output payload
 
 payload.open ++ payload.username ++ payload.message 
 ++ payload.message2 ++ now()
 
-respone
-
+response
 "Hello Siye Welcome to Mulesoft today is 2021-06-18T00:09:16.406-04:00"
+
+
+
