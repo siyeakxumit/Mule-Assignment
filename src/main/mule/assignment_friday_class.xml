@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="407c77e7-1ba8-4176-be2e-8bd4a7b1887d" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="assignment1_welcome2Mulesoft" doc:id="4c1f5392-114c-43fe-9766-58c602697673" >
+		<http:listener doc:name="Listener" doc:id="562a0d65-bfdd-4e51-94c9-412370dd9d1a" config-ref="HTTP_Listener_config" path="/hello" />
+		<set-variable value="#[attributes.queryParams.name]" doc:name="Set Variable" doc:id="ba6d7195-fc33-4b9d-b2dc-d937bc2ad6e3" variableName="name" />
+		<ee:transform doc:name="Transform Message" doc:id="ba8a7fce-0d68-4151-9373-da540fb7c854" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+"hello " ++ vars.name ++ " welcome to mule soft " ++ now()]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="formated_date" doc:id="798d2bc2-7496-4758-8a3c-99cccf4326ca" >
+		<http:listener doc:name="Listener" doc:id="da0d498d-e604-4c9b-b7b6-1edcd9f7a38a" config-ref="HTTP_Listener_config" path="/format" />
+		<ee:transform doc:name="Transform Message" doc:id="fd0b32ff-5aa7-4311-b6d0-47293cb7eed4" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{now: now(),
+formattedDate: now() as String {format: "y-MM-dd"}
+}
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="sizeOf_firstname_lastname" doc:id="1e49f518-1327-42c9-999b-0ac5623ab8ab" >
+		<http:listener doc:name="Listener" doc:id="21fbccd6-c27b-4284-9ffb-8fd62db7d65c" config-ref="HTTP_Listener_config" path="/sizeOf"/>
+		<set-variable value="#[sizeOf(attributes.queryParams.firstName default 0)]" doc:name="firstName" doc:id="d578fba0-5751-40f7-a080-cc6f88c90584" variableName="firstName"/>
+		<set-variable value="#[sizeOf(attributes.queryParams.lastName default 0)]" doc:name="lastName" doc:id="2997eb37-a0b8-4f24-9836-3f9d79532070" variableName="lastName"/>
+		<ee:transform doc:name="Transform Message" doc:id="01b66fba-882c-4107-86c7-779541320c6d" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{"sizeOf firstName": vars.firstName,
+  "sizeOf lastName": vars.lastName	
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
