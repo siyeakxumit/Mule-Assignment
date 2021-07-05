@@ -33,6 +33,7 @@ formattedDate: now() as String {format: "y-MM-dd"}
 ]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="980978be-9980-451a-94b2-ae1a375a1a40" message="#[payload]"/>
 	</flow>
 	<flow name="sizeOf_firstname_lastname" doc:id="1e49f518-1327-42c9-999b-0ac5623ab8ab" >
 		<http:listener doc:name="Listener" doc:id="21fbccd6-c27b-4284-9ffb-8fd62db7d65c" config-ref="HTTP_Listener_config" path="/sizeOf"/>
